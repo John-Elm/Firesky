@@ -1,4 +1,4 @@
-# Phoenix LiveView Firesky
+![Screen Recording 2024-12-13 at 9 18 36 PM](https://github.com/user-attachments/assets/76fd1a61-1bdf-4c8f-bd4f-1c5a3e43f816)# Phoenix LiveView Firesky
 
 A proof-of-concept demonstrating just how easy it is to create real-time applications with LiveView.
 
@@ -33,3 +33,11 @@ def handle_info({:gun_ws, _conn_pid, _stream_ref, frame}, state) do
   {:noreply, state}
 end
 ```
+
+## Demo Video
+
+
+https://github.com/user-attachments/assets/ca32bffd-4c29-4b9a-8606-7f0a7b434552
+
+
+
