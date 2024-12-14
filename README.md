@@ -34,10 +34,21 @@ def handle_info({:gun_ws, _conn_pid, _stream_ref, frame}, state) do
 end
 ```
 
+and finally, to display:
+
+```html
+<div id="feed" phx-update="stream" class="flex flex-col gap-y-4">
+  <div :for={{id, {_id, frame}} <- @streams.frames} id={id}>
+    {frame}
+  </div>
+</div>
+```
+
+That's it. Seriously.
+
 ## Demo Video
 
 
 https://github.com/user-attachments/assets/ca32bffd-4c29-4b9a-8606-7f0a7b434552
 
-
-
+(I'd make it longer, but there's a 10MB file limit for video attachments)
