@@ -23,10 +23,11 @@ defmodule FireskyWeb do
     quote do
       use Phoenix.Router, helpers: false
 
-      # Import common connection and controller functions to use in pipelines
-      import Plug.Conn
       import Phoenix.Controller
       import Phoenix.LiveView.Router
+
+      # Import common connection and controller functions to use in pipelines
+      import Plug.Conn
     end
   end
 
@@ -42,8 +43,8 @@ defmodule FireskyWeb do
         formats: [:html, :json],
         layouts: [html: FireskyWeb.Layouts]
 
-      import Plug.Conn
       import FireskyWeb.Gettext
+      import Plug.Conn
 
       unquote(verified_routes())
     end
@@ -81,11 +82,11 @@ defmodule FireskyWeb do
 
   defp html_helpers do
     quote do
+      import FireskyWeb.CoreComponents
+      import FireskyWeb.Gettext
       # HTML escaping functionality
       import Phoenix.HTML
       # Core UI components and translation
-      import FireskyWeb.CoreComponents
-      import FireskyWeb.Gettext
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
