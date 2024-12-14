@@ -16,6 +16,7 @@ defmodule Firesky.Application do
       {Finch, name: Firesky.Finch},
       # Start a worker by calling: Firesky.Worker.start_link(arg)
       # {Firesky.Worker, arg},
+      %{id: Firesky.JetstreamClient, start: {Firesky.JetstreamClient, :start_link, []}},
       # Start to serve requests, typically the last entry
       FireskyWeb.Endpoint
     ]

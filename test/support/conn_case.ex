@@ -20,6 +20,7 @@ defmodule FireskyWeb.ConnCase do
   using do
     quote do
       use FireskyWeb, :verified_routes
+
       import FireskyWeb.ConnCase
       import Phoenix.ConnTest
       import Plug.Conn

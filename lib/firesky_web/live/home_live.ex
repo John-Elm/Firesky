@@ -1,6 +1,6 @@
-defmodule Firesky.HomeLive do
-  use FireSky, :live_view
-
+defmodule FireskyWeb.HomeLive do
+  @moduledoc false
+  use FireskyWeb, :live_view
 
   @impl Phoenix.LiveView
   def render(assigns) do
