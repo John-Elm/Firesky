@@ -28,7 +28,6 @@ defmodule Firesky.MixProject do
 
   defp deps do
     [
-       [github: "tailwindlabs/heroicons", tag: "v2.1.1", sparse: "optimized", app: false, compile: false, depth: 1]},
       {:bandit, "~> 1.5"},
       {:certifi, "~> 2.13"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
@@ -39,7 +38,7 @@ defmodule Firesky.MixProject do
       {:floki, ">= 0.30.0", only: :test},
       {:gettext, "~> 0.20"},
       {:gun, "~> 2.0"},
-      {:heroicons,
+      {:heroicons, [github: "tailwindlabs/heroicons", tag: "v2.1.1", sparse: "optimized", app: false, compile: false, depth: 1]},
       {:jason, "~> 1.2"},
       {:mix_test_watch, "~> 1.0", only: [:test], runtime: false},
       {:phoenix, "~> 1.7.17"},
