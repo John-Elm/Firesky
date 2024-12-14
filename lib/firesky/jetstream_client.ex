@@ -1,4 +1,6 @@
 defmodule Firesky.JetstreamClient do
+  use GenServer
+
   @connect_opts %{
     connect_timeout: 60_000,
     retry: 10,
@@ -15,37 +17,47 @@ defmodule Firesky.JetstreamClient do
   }
 
   def start_link do
+    GenServer.start_link(__MODULE__, nil, name: __MODULE__)
+  end
+
+  def init(_) do
     host = 'jetstream2.us-west.bsky.network'
     port = 443
     path = '/subscribe'
 
     {:ok, conn_pid} = :gun.open(host, port, @connect_opts)
-    {:ok, _http_version} = :gun.await_up(conn_pid)
-    # Put conn_pid and stream_ref in state to match on incoming messages
+    {:ok, _transport} = :gun.await_up(conn_pid)
     stream_ref = :gun.ws_upgrade(conn_pid, path, %{})
 
-    receive do
-      {:gun_upgrade, ^conn_pid, ^stream_ref, ["websocket"], headers} ->
-        IO.puts("WebSocket connection established!")
-        loop(conn_pid, stream_ref)
+    # Set a timeout for the upgrade to complete
+    Process.send_after(self(), :upgrade_timeout, 5000)
 
-      {:gun_response, ^conn_pid, ^stream_ref, status, _resp_headers, _body} ->
-        IO.puts("WebSocket upgrade failed with status: #{status}")
-    after
-      5000 ->
-        IO.puts("Timed out waiting for WebSocket upgrade.")
-    end
+    {:ok, %{conn_pid: conn_pid, stream_ref: stream_ref, connected?: false}}
   end
 
-  defp loop(conn_pid, stream_ref) do
-    receive do
-      {:gun_ws, ^conn_pid, ^stream_ref, frame} ->
-        IO.inspect(frame, label: "Received frame")
-        loop(conn_pid, stream_ref)
-    after
-      5000 ->
-        IO.puts("No frames received.")
-        loop(conn_pid, stream_ref)
-    end
+  def handle_info({:gun_upgrade, _conn_pid, _stream_ref, ["websocket"], _headers}, state) do
+    IO.puts("WebSocket connection established!")
+    {:noreply, %{state | connected?: true}}
+  end
+
+  def handle_info({:gun_response, _conn_pid, _stream_ref, status, _resp_headers, _body}, state) do
+    IO.puts("WebSocket upgrade failed with status: #{status}")
+    {:stop, :normal, state}
+  end
+
+  def handle_info({:gun_ws, _conn_pid, _stream_ref, frame}, state) do
+    IO.inspect(frame, label: "Received frame")
+    {:text, json} = frame
+    {:noreply, state}
+  end
+
+  def handle_info(:upgrade_timeout, %{connected?: false} = state) do
+    IO.puts("Timed out waiting for WebSocket upgrade.")
+    {:stop, :normal, state}
+  end
+
+  def handle_info(:upgrade_timeout, state) do
+    # If we got here and connected is true, ignore the timeout.
+    {:noreply, state}
   end
 end

@@ -28,7 +28,9 @@ defmodule Firesky.MixProject do
 
   defp deps do
     [
+       [github: "tailwindlabs/heroicons", tag: "v2.1.1", sparse: "optimized", app: false, compile: false, depth: 1]},
       {:bandit, "~> 1.5"},
+      {:certifi, "~> 2.13"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dns_cluster, "~> 0.1.1"},
       {:ecto_sql, "~> 3.10"},
@@ -38,7 +40,6 @@ defmodule Firesky.MixProject do
       {:gettext, "~> 0.20"},
       {:gun, "~> 2.0"},
       {:heroicons,
-       [github: "tailwindlabs/heroicons", tag: "v2.1.1", sparse: "optimized", app: false, compile: false, depth: 1]},
       {:jason, "~> 1.2"},
       {:mix_test_watch, "~> 1.0", only: [:test], runtime: false},
       {:phoenix, "~> 1.7.17"},
@@ -50,7 +51,6 @@ defmodule Firesky.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:styler, "~> 1.2", only: [:dev, :test], runtime: false},
       {:swoosh, "~> 1.5"},
-      {:certifi, "~> 2.13"},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
