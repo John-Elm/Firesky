@@ -33,8 +33,10 @@ defmodule FireskyWeb.HomeLive do
   @impl Phoenix.LiveView
   def handle_info({:frame, json_map}, socket) do
     id = json_map["commit"]["cid"]
-    json = Jason.encode!(json_map)
-                   |> Jason.Formatter.pretty_print()
+    json =
+      json_map
+      |> Jason.encode!()
+      |> Jason.Formatter.pretty_print()
     socket = stream_insert(socket, :frames, {id, json}, limit: -10, at: 0)
     {:noreply, socket}
   end

@@ -1,18 +1,9 @@
-# Firesky
+# Phoenix LiveView Firesky
 
-To start your Phoenix server:
+A proof-of-concept demonstrating just how easy it is to create real-time applications with LiveView.
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+Just `mix setup` followed by `iex -S mix phx.server`. Visit `localhost:4000` and watch the magic.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Inspired by https://firesky.tv
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
