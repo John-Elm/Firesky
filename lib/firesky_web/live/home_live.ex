@@ -2,6 +2,8 @@ defmodule FireskyWeb.HomeLive do
   @moduledoc false
   use FireskyWeb, :live_view
 
+  @interval 100
+
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
@@ -25,7 +27,10 @@ defmodule FireskyWeb.HomeLive do
     socket =
       socket
       |> stream_configure(:frames, dom_id: &elem(&1, 0))
-      |> stream(:frames, [], limit: 25)
+      |> stream(:frames, [], limit: 50)
+      |> assign(:buffer, [])
+
+    flush()
 
     {:ok, socket}
   end
@@ -33,12 +38,27 @@ defmodule FireskyWeb.HomeLive do
   @impl Phoenix.LiveView
   def handle_info({:frame, json_map}, socket) do
     id = json_map["commit"]["cid"]
-    json = inspect(json_map)
-      # json_map
-      # |> Jason.encode!()
-      # |> Jason.Formatter.pretty_print()
+    json = # inspect(json_map)
+      json_map
+      |> Jason.encode!()
+      |> Jason.Formatter.pretty_print()
+    socket = update(socket, :buffer, &[{id, json} | &1])
 
-    socket = stream_insert(socket, :frames, {id, json}, limit: 25, at: 0)
     {:noreply, socket}
   end
+
+  def handle_info(:flush, socket) do
+    %{buffer: buffer} = socket.assigns
+
+    socket =
+      socket
+      |> assign(:buffer, [])
+      |> stream(:frames, Enum.reverse(buffer), at: 0, limit: 50)
+
+    flush()
+
+    {:noreply, socket}
+  end
+
+  defp flush, do: Process.send_after(self(), :flush, @interval)
 end
