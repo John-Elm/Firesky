@@ -48,7 +48,6 @@ defmodule Firesky.JetstreamClient do
   def handle_info({:gun_ws, _conn_pid, _stream_ref, frame}, state) do
     {:text, raw_json} = frame
     json_map = Jason.decode!(raw_json)
-    # IO.inspect json_map, label: "JSON"
     Phoenix.PubSub.broadcast(Firesky.PubSub, "firehose", {:frame, json_map})
     {:noreply, state}
   end
