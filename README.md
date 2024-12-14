@@ -1,4 +1,4 @@
-![Screen Recording 2024-12-13 at 9 18 36 PM](https://github.com/user-attachments/assets/76fd1a61-1bdf-4c8f-bd4f-1c5a3e43f816)# Phoenix LiveView Firesky
+# Phoenix LiveView Firesky
 
 A proof-of-concept demonstrating just how easy it is to create real-time applications with LiveView.
 
